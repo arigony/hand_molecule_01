@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MolecuAR — Visualizador Molecular Ball-and-Stick</title>
+  <meta name="description" content="Visualizador molecular 3D educacional com estruturas do PubChem, ball-and-stick e rastreamento de mão com MediaPipe Tasks Vision." />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <main id="app" aria-label="MolecuAR visualizador molecular 3D">
+    <canvas id="scene" aria-label="Cena molecular 3D"></canvas>
+    <canvas id="handOverlay" aria-hidden="true"></canvas>
+    <video id="cameraVideo" playsinline webkit-playsinline muted autoplay></video>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <h1>Molecu<span>AR</span></h1>
+          <p>PubChem 3D · Ball-and-stick padronizado</p>
+        </div>
+      </div>
+
+      <div class="view-buttons" aria-label="Modos de visualização">
+        <button id="galleryMode" class="mode-button active" type="button">Galeria</button>
+        <button id="arMode" class="mode-button" type="button">AR</button>
+      </div>
+    </header>
+
+    <section class="search-panel" aria-label="Busca molecular">
+      <form id="searchForm">
+        <label class="sr-only" for="queryInput">Buscar molécula</label>
+        <input id="queryInput" type="search" autocomplete="off" spellcheck="false"
+          placeholder="Digite nome em inglês ou CID PubChem. Ex.: ethanol, caffeine, 2244" />
+        <button id="searchButton" type="submit">Buscar</button>
+      </form>
+
+      <div id="examples" class="examples" aria-label="Exemplos de moléculas"></div>
+    </section>
+
+    <aside class="legend-card" aria-label="Legenda de cores">
+      <strong>Cores dos átomos</strong>
+      <div class="legend-grid">
+        <span><i style="--c:#222"></i>C</span>
+        <span><i style="--c:#f5f5f5"></i>H</span>
+        <span><i style="--c:#e21b23"></i>O</span>
+        <span><i style="--c:#2f55d4"></i>N</span>
+        <span><i style="--c:#f2c230"></i>S</span>
+        <span><i style="--c:#ff8a00"></i>P</span>
+        <span><i style="--c:#34b233"></i>Cl</span>
+      </div>
+    </aside>
+
+    <section class="info-card" aria-live="polite">
+      <div class="info-icon">⚛</div>
+      <div class="info-text">
+        <h2 id="moleculeName">Carregando...</h2>
+        <p id="moleculeFormula">—</p>
+        <small id="moleculeMeta">Fonte principal: PubChem</small>
+      </div>
+    </section>
+
+    <div id="handStatus" class="hand-status hidden">Mão não detectada</div>
+
+    <section id="helpCard" class="help-card">
+      <strong>Como usar</strong>
+      <p>Arraste para girar, use a roda do mouse ou pinça para zoom. No modo AR, a molécula aparece sobre a câmera.</p>
+    </section>
+
+    <div id="loading" class="loading hidden" role="status" aria-live="assertive">
+      <div class="spinner"></div>
+      <p id="loadingText">Carregando...</p>
+    </div>
+
+    <div id="toastBox" class="toast-box" aria-live="polite"></div>
+  </main>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
